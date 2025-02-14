@@ -1,36 +1,46 @@
 
-name: Debug Hudl UI Tests
+name: Run Hudl UI Tests
 
 on:
+  push:
+  pull_request:
   workflow_dispatch:
 
 jobs:
-  debug:
-    runs-on: ubuntu-latest
+  ui-tests:
+    runs-on: ubuntu-latest  # Uses Ubuntu for simplicity
+    strategy:
+      matrix:
+        browser: [chrome, firefox]  # Runs tests in Chrome & Firefox in parallel
+
+    env:
+      BROWSER: ${{ matrix.browser }}  # Passes the browser to the test environment
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Show Current Directory
-        run: pwd
-
-      - name: List Files in Repository
-        run: ls -R
-
-      - name: Show Python Version
-        run: python --version
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
 
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: List Installed Python Packages
-        run: pip list
+      - name: Set Secrets as Environment Variables
+        env:
+          REGISTERED_EMAIL: ${{ secrets.REGISTERED_EMAIL }}
+          VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
+        run: echo "Secrets loaded"
 
-      - name: Find Test Files
-        run: find . -name "test_*.py" -o -name "*_test.py"
+      - name: Run UI Tests
+        run: pytest -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
 
-      - name: Check Pytest Test Discovery
-        run: pytest --collect-only
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-${{ matrix.browser }}
+          path: report-${{ matrix.browser }}.html
