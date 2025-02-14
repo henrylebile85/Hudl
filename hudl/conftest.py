@@ -150,12 +150,3 @@ def pytest_runtest_makereport(item, call):
 
 
 
-def get_credentials():
-    # Retrieve credentials from GitHub Secrets.
-    email = os.environ.get("REGISTERED_EMAIL")
-    password = os.environ.get("REGISTERED_PASSWORD")
-
-    if not email or not password:
-        raise Exception("Missing credentials in GitHub Secrets.")
-
-    return email, password
