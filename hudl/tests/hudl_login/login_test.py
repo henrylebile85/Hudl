@@ -13,7 +13,7 @@ from hudl.src.pages_and_locators.pages.homePage import HomePage
 @pytest.mark.usefixtures('init_driver')
 class TestLogIn:
 
-    @pytest.mark.login
+    @pytest.mark.login_test
     @pytest.mark.tcid1
     def test_login_happy_path(self):
         Land_P = LandingPage(self.driver)
