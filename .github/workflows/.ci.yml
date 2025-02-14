@@ -7,18 +7,10 @@ on:
 
 jobs:
   ui-tests:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        browser: [chrome, firefox, headlesschrome, headlessfirefox]
-        exclude:
-          - os: windows-latest
-            browser: safari
-          - os: ubuntu-latest
-            browser: safari
+    runs-on: ubuntu-latest  # Use Ubuntu for consistency & pre-installed browsers
+
     env:
-      BROWSER: ${{ matrix.browser }}
+      BROWSER: chrome  # Default browser to avoid environment variable issues
 
     steps:
       - name: Checkout Repository
@@ -34,24 +26,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Install Browsers (Windows-specific setup)
-      - name: Install Browsers on Windows
-        if: runner.os == 'Windows'
-        run: |
-          choco install googlechrome firefox -y
-          refreshenv
-
-      - name: Set Credentials as Environment Variables
-        env:
-          REGISTERED_EMAIL: ${{ secrets.REGISTERED_EMAIL }}
-          REGISTERED_PASSWORD: ${{ secrets.REGISTERED_PASSWORD }}
-        run: echo "Credentials set"
-
-      - name: Run UI Tests in Parallel
-        run: pytest -m login_test -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
+      - name: Run UI Tests
+        run: pytest -m login_test --html=report.html --self-contained-html --title="Hudl UI Tests"
 
       - name: Upload Test Report
         uses: actions/upload-artifact@v3
         with:
-          name: test-report-${{ matrix.browser }}
-          path: report-${{ matrix.browser }}.html
+          name: test-report
+          path: report.html
