@@ -7,14 +7,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  ui-tests:
-    runs-on: ubuntu-latest  # Uses Ubuntu for simplicity
-    strategy:
-      matrix:
-        browser: [chrome, firefox]  # Runs tests in Chrome & Firefox in parallel
+  ui-tests-chrome:
+    runs-on: ubuntu-latest  # Use Ubuntu for consistency
 
     env:
-      BROWSER: ${{ matrix.browser }}  # Passes the browser to the test environment
+      BROWSER: chrome  # Runs tests in Chrome
 
     steps:
       - name: Checkout Repository
@@ -36,11 +33,47 @@ jobs:
           VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
         run: echo "Secrets loaded"
 
-      - name: Run UI Tests
-        run: pytest -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
+      - name: Run UI Tests on Chrome
+        run: pytest -n auto --html=report-chrome.html --self-contained-html --title="Hudl UI Tests - Chrome"
 
-      - name: Upload Test Report
+      - name: Upload Test Report (Chrome)
         uses: actions/upload-artifact@v4
         with:
-          name: test-report-${{ matrix.browser }}
-          path: report-${{ matrix.browser }}.html
+          name: test-report-chrome
+          path: report-chrome.html
+
+  ui-tests-firefox:
+    runs-on: ubuntu-latest  # Use the same environment
+    needs: ui-tests-chrome  # Runs after Chrome tests complete
+
+    env:
+      BROWSER: firefox  # Runs tests in Firefox
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Set Secrets as Environment Variables
+        env:
+          REGISTERED_EMAIL: ${{ secrets.REGISTERED_EMAIL }}
+          VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
+        run: echo "Secrets loaded"
+
+      - name: Run UI Tests on Firefox
+        run: pytest -n auto --html=report-firefox.html --self-contained-html --title="Hudl UI Tests - Firefox"
+
+      - name: Upload Test Report (Firefox)
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-firefox
+          path: report-firefox.html
