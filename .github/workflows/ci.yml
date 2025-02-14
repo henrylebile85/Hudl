@@ -49,8 +49,14 @@ jobs:
           which chromedriver || echo "ChromeDriver not found!"
           which geckodriver || echo "GeckoDriver not found!"
 
+      - name: Debug - List Test Files
+        run: find . -name "test_*.py" -o -name "*_test.py"
+
       - name: Debug - Check Collected Tests
         run: pytest --collect-only
+
+      - name: Cleanup Old Reports
+        run: rm -f report-${{ matrix.browser }}.html
 
       - name: Run UI Tests in Parallel
         run: |
@@ -61,12 +67,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-report-${{ matrix.browser }}
+          name: test-report-${{ matrix.browser }}-${{ github.run_id }}
           path: report-${{ matrix.browser }}.html
 
-      - name: Upload Failed Test Screenshots
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: failed-test-screenshots
-          path: Reports_Images_Failed_Tests
