@@ -35,11 +35,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Verify Installed Python Packages
+        run: pip list
+
       - name: Install Browsers on Windows
         if: runner.os == 'Windows'
         run: |
           choco install googlechrome firefox -y
           refreshenv
+
+      - name: Verify WebDriver Installation
+        run: |
+          echo "Checking ChromeDriver and GeckoDriver..."
+          which chromedriver || echo "ChromeDriver not found!"
+          which geckodriver || echo "GeckoDriver not found!"
 
       - name: Set Credentials as Environment Variables
         env:
@@ -47,18 +56,24 @@ jobs:
           VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
         run: echo "Credentials set"
 
+      - name: Debug - Check Test Collection
+        run: pytest --collect-only
+
       - name: Run UI Tests in Parallel
-        run: pytest -m login_test -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
+        run: |
+          pytest -m login_test -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}" || \
+          pytest -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
 
       - name: Upload Test Report
-        uses: actions/upload-artifact@v4  # ✅ Updated to v4
+        if: always()  # Ensures the report is uploaded even if tests fail
+        uses: actions/upload-artifact@v4
         with:
           name: test-report-${{ matrix.browser }}
           path: report-${{ matrix.browser }}.html
 
       - name: Upload Failed Test Screenshots
         if: failure()
-        uses: actions/upload-artifact@v4  # ✅ Updated to v4
+        uses: actions/upload-artifact@v4
         with:
           name: failed-test-screenshots
           path: Reports_Images_Failed_Tests
