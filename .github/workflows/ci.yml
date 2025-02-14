@@ -23,9 +23,9 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run UI Tests
-        run: pytest tests/ui_tests --browser ${{ matrix.browser }}
+        run: pytest -m login -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
 
-      - name: Upload Test Results  # ✅ Updated to v4
+      - name: Upload Test Results
         uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.os }}-${{ matrix.browser }}
