@@ -48,7 +48,7 @@ jobs:
         run: echo "Credentials set"
 
       - name: Run UI Tests in Parallel
-        run: pytest -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
+        run: pytest hudl/ -m login_test -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
 
       - name: Upload Test Report
         uses: actions/upload-artifact@v4  # ✅ Updated to v4
