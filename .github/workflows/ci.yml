@@ -1,0 +1,60 @@
+
+
+
+name: Run Hudl UI Tests Securely
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ui-tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        browser: [chrome, firefox, headlesschrome, headlessfirefox]
+        exclude:
+          - os: windows-latest
+            browser: safari
+          - os: ubuntu-latest
+            browser: safari
+    env:
+      BROWSER: ${{ matrix.browser }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Install Browsers (Windows-specific setup)
+      - name: Install Browsers on Windows
+        if: runner.os == 'Windows'
+        run: |
+          choco install googlechrome firefox -y
+          refreshenv
+
+      - name: Set Credentials as Environment Variables
+        env:
+          REGISTERED_EMAIL: ${{ secrets.REGISTERED_EMAIL }}
+          REGISTERED_PASSWORD: ${{ secrets.REGISTERED_PASSWORD }}
+        run: echo "Credentials set"
+
+      - name: Run UI Tests in Parallel
+        run: pytest -m login_test -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
+
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report-${{ matrix.browser }}
+          path: report-${{ matrix.browser }}.html
