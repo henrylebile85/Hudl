@@ -35,7 +35,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Verify Installed Python Packages
+      - name: Debug - Installed Python Packages
         run: pip list
 
       - name: Install Browsers on Windows
@@ -44,28 +44,21 @@ jobs:
           choco install googlechrome firefox -y
           refreshenv
 
-      - name: Verify WebDriver Installation
+      - name: Debug - Verify WebDriver Installation
         run: |
-          echo "Checking ChromeDriver and GeckoDriver..."
           which chromedriver || echo "ChromeDriver not found!"
           which geckodriver || echo "GeckoDriver not found!"
 
-      - name: Set Credentials as Environment Variables
-        env:
-          REGISTERED_EMAIL: ${{ secrets.REGISTERED_EMAIL }}
-          VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
-        run: echo "Credentials set"
-
-      - name: Debug - Check Test Collection
+      - name: Debug - Check Collected Tests
         run: pytest --collect-only
 
       - name: Run UI Tests in Parallel
         run: |
-          pytest --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}" || \
-          pytest  --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
+          pytest -m login_test -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}" || \
+          pytest -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
 
       - name: Upload Test Report
-        if: always()  # Ensures the report is uploaded even if tests fail
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-report-${{ matrix.browser }}
