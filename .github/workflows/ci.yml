@@ -61,8 +61,8 @@ jobs:
 
       - name: Run UI Tests in Parallel
         run: |
-          pytest -m login_test -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}" || \
-          pytest -n auto --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
+          pytest --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}" || \
+          pytest  --html=report-${{ matrix.browser }}.html --self-contained-html --title="Hudl UI Tests - ${{ matrix.browser }}"
 
       - name: Upload Test Report
         if: always()  # Ensures the report is uploaded even if tests fail
