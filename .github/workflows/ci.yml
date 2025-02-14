@@ -44,7 +44,7 @@ jobs:
       - name: Set Credentials as Environment Variables
         env:
           REGISTERED_EMAIL: ${{ secrets.REGISTERED_EMAIL }}
-          REGISTERED_PASSWORD: ${{ secrets.REGISTERED_PASSWORD }}
+          VALID_PASSWORD: ${{ secrets.VALID_PASSWORD }}
         run: echo "Credentials set"
 
       - name: Run UI Tests in Parallel
