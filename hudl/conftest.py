@@ -57,10 +57,11 @@ def init_driver(request):
     elif browser in ('firefox', 'ff', 'headlessfirefox'):
         firefox_options = FirefoxOptions()
         if browser == 'headlessfirefox':
-            firefox_options.add_argument('--headless')
-            firefox_options.add_argument('--headless')
-            firefox_options.add_argument('--no-sandbox')
-            firefox_options.add_argument('--disable-gpu')  # Ensures smooth headless operation
+            firefox_options = FirefoxOptions()
+            firefox_options.add_argument('--headless')  # Ensures Firefox runs in headless mode
+            firefox_options.add_argument('--disable-gpu')  # Prevents GPU-related crashes
+            firefox_options.add_argument('--no-sandbox')  # Avoids security sandbox issues
+            firefox_options.add_argument('--disable-dev-shm-usage')
         # Setup the GeckoDriver using webdriver_manager
         service = Service(GeckoDriverManager().install())
         driver = webdriver.Firefox(service=service, options=firefox_options)
