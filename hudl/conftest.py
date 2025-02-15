@@ -49,6 +49,7 @@ def init_driver(request):
             chrome_options.add_argument('--disable-gpu')  # Ensures smooth headless operation
         # Set up the ChromeDriver using webdriver_manager
             chrome_options.add_argument('--disable-dev-shm-usage')
+            chrome_options.add_argument('--remote-debugging-port=9222')
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
         # you can also use options to write it this way to set up ChromeDriver (below)
