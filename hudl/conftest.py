@@ -28,7 +28,7 @@ def init_driver(request):
 
     # Retrieve the browser type from environment variable
     browser = os.environ.get('BROWSER', None)
-    timeout = int(os.environ.get('SELENIUM_TIMEOUT', 700))  # Default to 700 if not set
+
     if not browser:
         raise Exception("The environment variable 'BROWSER' must be set." )
 
@@ -74,10 +74,6 @@ def init_driver(request):
     if driver is None:
         raise Exception(f"Failed to initialize a driver for the browser: {browser}")
 
-    # 🔹 Set explicit timeouts
-    driver.set_page_load_timeout(timeout)
-    driver.implicitly_wait(10)
-    driver.set_script_timeout(400)
 
     # Pass the driver to the test class
     request.cls.driver = driver
@@ -87,46 +83,32 @@ def init_driver(request):
 
 
 
-# to set the environment variable
-# For windows use any of the following, depending on what browser you want to run (no spaces in *=* )
-# (set BROWSER=chrome)
-# (set BROWSER=firefox)
-# (set BROWSER=safari)
-
-# For apple use any of the following, depending on what browser you want to run (no spaces in *=* )
-# (export BROWSER=chrome)
-# (export BROWSER=firefox)
-# (export BROWSER=safari)
 
 
-
-
-
-#### For: generating only pytest-html report
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
-    """
-    Hook to add extra information (e.g., screenshots) to the HTML report and create a folder
-    if it doesn't exist.
-    """
+
+    # Hook to add extra information (e.g., screenshots) to the HTML report and store both
+    # the report and images in the same "Reports" folder.
+
     outcome = yield
     report = outcome.get_result()
     extras = getattr(report, "extras", [])
 
     if report.when == "call":
         # Always add a sample URL to the report
-        extras.append(pytest_html.extras.url("http://www.example.com/"))
+        extras.append(pytest_html.extras.url("https://www.hudl.com/"))
         xfail = hasattr(report, "wasxfail")
+
+        # Define the Reports directory
+        reports_dir = os.path.join(os.getcwd(), "Reports")
+        os.makedirs(reports_dir, exist_ok=True)
 
         # Check if test failed
         if (report.skipped and xfail) or (report.failed and not xfail):
             is_frontend_test = "init_driver" in item.fixturenames
 
             if is_frontend_test:
-                # Define the Reports directory
-                reports_dir = os.path.join(os.getcwd(), "Reports_Images_Failed_Tests")
-                os.makedirs(reports_dir, exist_ok=True)
-
                 # Save the screenshot in the Reports folder
                 screen_shot_path = os.path.join(reports_dir, f"{item.name}.png")
 
@@ -140,20 +122,6 @@ def pytest_runtest_makereport(item, call):
                 report.extra_xml = f'<image>{screen_shot_path}</image>'
 
     report.extras = extras
-
-
-
-# to set the environment variable
-# For windows use any of the following, depending on what browser you want to run (no spaces in *=* )
-# (set RESULTS_DIR=then enter the absolute path of where you want the file to be stored e.g. reports )
-# (set RESULTS_DIR=/Users/lbmacpro/Desktop/Framework/PFrame1/pframe1/pframe1/src/Reports)
-
-
-# For apple use any of the following, depending on what browser you want to run (no spaces in *=* )
-# (export RESULTS_DIR=/Users/lbmacpro/Desktop/Framework/PFrame1/pframe1/pframe1/src/Reports)
-
-# Command for self-contained html
-# pytest -m -s tcid12 --html=report.html --self-contained-html
 
 
 

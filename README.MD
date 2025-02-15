@@ -1,71 +1,104 @@
-#Run on Local machine#
+# Run on Local machine#
+- Clone Repository  
+- Activate Virtual environment  
+- Install dependencies  
+- Set Environment Variables
+- Run tests and generate report 
+- Check test reports  
 
-***Activate the Virtual Environment***
-Execute command from the hudl project
+## Clone Repository
+on the cmd, Run   
+git clone https://github.com/henrylebile85/Hudl.git  
 
--Windows {bash}(Command Prompt):
-venv_hudl\Scripts\activate
+Navigate to the cloned project   
+cd hudl  
 
--Windows (PowerShell):
-venv_hudl\Scripts\Activate.ps1
+## Setting up a new Virtual environment or activating the Virtual environment within the project
+- Activate the Virtual Environment within the hudl project venv (venv_hudl) 
+  Execute command from the hudl project   
 
--Mac/Linux(bash)
-source venv_hudl/bin/activate
+  - Windows {bash}(Command Prompt): 
+    venv_hudl\Scripts\activate  
 
+  - Windows (PowerShell): 
+    venv_hudl\Scripts\Activate.ps1  
 
-***Confirm dependencies are installed***
-pip freeze from the venv_hudl virtual environment
-If dependencies are not installed, re-install them from the requirements.txt file
-pip install -r requirements.txt
+  - Mac/Linux(bash) 
+    source venv_hudl/bin/activate    
 
-Note: If you create a new virtual environment, you would need to download all the dependencies from the requirements.txt file
+- Deactivate the Virtual Environment   
+  deactivate 
 
-
-***Set Environment Variables***
-Windows
-
-
-Mac
-
-
-
-***Run command in cmd to run the test and generate reports***
-pytest -m login_test --html=report.html --self-contained-html --title="Hudl login test"
-
-
-***Generating HTML Reports with pytest-html***
-pytest-html is a plugin for pytest that allows you to generate an HTML test report, making it easier to analyze test results.
-Add Self-contained Report (Includes CSS & JS inline):
-pytest --html=report.html --self-contained-html
-Set a Custom Report Title:
-pytest --html=report.html --self-contained-html --title="Hudl login test"
+- Create a Virtual Environment 
+  python -m venv virtual_environment_name 
+  Note: command for python 3 and above 
 
 
+## Install dependencies  
+- Confirm if dependencies are already installed   
 
-# hudl-login-tests
+  pip freeze from the venv_hudl virtual environment or from the newly created virtual environment   
+  
+  If dependencies are installed, proceed to setting the environment variables  
 
-A brief description of what the project does and why it’s useful.
+- Install dependencies 
 
-## Installation
+  If dependencies are not installed, re-install them from the requirements.txt file   
 
-Instructions for installing and setting up the project.
+  pip install -r requirements.txt   
 
-## Usage for local cloning
-How to use the project, with examples if necessary.
+Note: If you create a new virtual environment, you would need to install all the dependencies from the 
+requirements.txt file 
 
-## Usage for runing through git actions
-How to Manually Run the Workflow and execute tests from GitHub.    
-Go to GitHub → Actions.   
-Select "Run Hudl UI Tests Securely" from the list.  
-Click "Run workflow".  
-The tests will execute immediately.  
+## Set Environment Variables
+- Set Browser environment variable to select the desired browser to run the test 
+  - For windows use any of the following, depending on the browser you want to run (no spaces in *=* )   
+    set BROWSER=chrome  
+    set BROWSER=firefox   
 
-## Contributing
+  - For apple use any of the following, depending on the browser you want to run (no spaces in *=* )   
+    export BROWSER=chrome
+    export BROWSER=firefox
+    export BROWSER=safari   
 
-Guidelines for contributing to the project.
+- Set EnvironmentI (Not required)
+  - prod is set as the default value. 
+    For the purpose of this Hudl exercise, we would be using only prod  
 
-## License
+- 📌 **(Optional):** Set html Report Directory 
+  - For windows use any of the following, (no spaces in *=* )   
+    set RESULTS_DIR=then enter the absolute path of where you want the file to be stored e.g. reports   
 
-Information about the project’s license.
+  - For apple use any of the following, depending on what browser you want to run (no spaces in *=* )   
+    export RESULTS_DIR=then enter the absolute path of where you want the file to be stored e.g. reports   
+
+
+## Run Test and Generate Reports  
+- Navigate to the hudl package   
+  cd hudl   
+
+- Execute tests from the hudl package  
+  Run command   
+  pytest -m login -n auto --html=Reports/report.html --self-contained-html   
+
+## Check Test Reports 
+- Default location   
+  Reports are located in the hudl package under Reports
+  😊 your current directory  
+
+- Environment Variable location 
+  the reports would be located 📌 **(here):** the absolute path of where you want the file to be stored 
+
+
+### Additional information
+- Dependencies 
+  - Selenium 
+  - pytest 
+  - pytest-xdist 
+  - pytest-html
+  - webdriver-manager
+  
+
+  
 
 
