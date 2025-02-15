@@ -42,7 +42,7 @@ jobs:
 
       - name: Run UI Tests (Headless Firefox) with Increased Timeout
         run: |
-          pytest hudl/ -m login_test \
+          pytest hudl/ 
             --html=reports/report.html \
             --self-contained-html
 
