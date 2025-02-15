@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Updated to latest version
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -32,7 +32,7 @@ jobs:
           pytest hudl/test/ -m login_test --html=reports/report.html --self-contained-html --title="Hudl UI Tests"
 
       - name: Upload Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  # Updated to v4
         with:
           name: test-report
           path: reports/report.html
