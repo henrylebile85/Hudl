@@ -35,7 +35,7 @@ jobs:
 
       - name: Run UI Tests
         run: |
-          pytest hudl -m login_test --html=reports/report.html --self-contained-html 
+          pytest hudl/ -m login_test --html=reports/report.html --self-contained-html 
 
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
