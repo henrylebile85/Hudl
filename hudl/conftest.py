@@ -73,6 +73,10 @@ def init_driver(request):
     if driver is None:
         raise Exception(f"Failed to initialize a driver for the browser: {browser}")
 
+    # ✅ Increase WebDriver timeouts
+    driver.implicitly_wait(30)  # Waits for elements to be found
+    driver.set_page_load_timeout(400)  # Sets timeout for loading pages
+
     # Pass the driver to the test class
     request.cls.driver = driver
     yield
