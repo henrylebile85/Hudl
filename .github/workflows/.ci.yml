@@ -29,7 +29,7 @@ jobs:
       - name: Run UI Tests
         run: |
           mkdir -p reports  # Ensure the reports directory exists
-          pytest hudl -m login_test --html=reports/report.html --self-contained-html --title="Hudl UI Tests"
+          pytest hudl/ -m login_test --html=reports/report.html --self-contained-html 
 
       - name: Upload Test Report
         uses: actions/upload-artifact@v4  # Updated to v4
