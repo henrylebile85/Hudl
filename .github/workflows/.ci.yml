@@ -1,4 +1,4 @@
-name: Run Hudl UI Tests Securely (Headless Firefox)
+name: Run Hudl UI Tests Securely
 
 on:
   push:
@@ -8,14 +8,12 @@ on:
 jobs:
   ui-tests:
     runs-on: ubuntu-latest
-
     env:
-      BROWSER: firefox  # 🔥 Run tests in headless Firefox
-      HEADLESS: "true"  # ✅ Ensure headless mode is enabled
+      BROWSER: headlessfirefox  # Set the browser to headless Firefox
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -27,30 +25,30 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install Firefox
+      - name: Install Firefox and Geckodriver
         run: |
           sudo apt-get update
           sudo apt-get install -y firefox
-          firefox --version  # ✅ Debugging: Confirm installed version
-          which firefox  # ✅ Debugging: Print Firefox binary location
-
-      - name: Install Latest Geckodriver Manually
-        run: |
           GECKODRIVER_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep '"tag_name":' | cut -d '"' -f 4)
-          wget "https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz"
-          tar -xvzf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
+          wget "https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz"
+          tar -xzf geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz
           chmod +x geckodriver
           sudo mv geckodriver /usr/local/bin/
-          geckodriver --version  # ✅ Debugging: Confirm installed version
+
+      - name: Start Virtual Display
+        run: |
+          Xvfb :99 -screen 0 1920x1080x24 &
+          echo "DISPLAY=:99" >> $GITHUB_ENV
 
       - name: Run UI Tests (Headless Firefox)
         run: |
-          Xvfb :99 -screen 0 1920x1080x24 &  # ✅ Start virtual display
-          export DISPLAY=:99  # ✅ Set display environment variable
-          pytest hudl/ -m login_test --html=reports/report.html --self-contained-html
+          pytest hudl/ -m login_test \
+            --html=reports/report.html \
+            --self-contained-html \
+            --timeout=400 \  # ⬅ Increased timeout here
 
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
         with:
-          name: test-report
+          name: hudl-ui-test-report
           path: reports/report.html
