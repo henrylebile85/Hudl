@@ -11,7 +11,7 @@ jobs:
 
     env:
       BROWSER: firefox  # 🔥 Run tests in headless Firefox
-      HEADLESS: "true"  # ✅ Ensure headless mode is enabled
+      HEADLESS: "false"  # ✅ Ensure headless mode is enabled
 
     steps:
       - name: Checkout Repository
