@@ -1,6 +1,7 @@
 # Run on Local machine#
 - Clone Repository  
 - Activate Virtual environment  
+- Update pip
 - Install dependencies  
 - Set Environment Variables
 - Run tests and generate report 
@@ -32,6 +33,10 @@ cd hudl
 - Create a Virtual Environment 
   python -m venv virtual_environment_name 
   Note: command for python 3 and above 
+
+## Update pip 
+- Run   
+  pip install --upgrade pip   
 
 
 ## Install dependencies  
