@@ -1,4 +1,4 @@
-name: Run Hudl UI Tests Securely
+name: Run Hudl UI Tests Securely (Headless Firefox)
 
 on:
   push:
@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      BROWSER: chrome  # Default browser
-      HEADLESS: "false"  # Force headless mode in CI
+      BROWSER: firefox  # 🔥 Run tests in headless Firefox
+      HEADLESS: "true"  # ✅ Ensure headless mode is enabled
 
     steps:
       - name: Checkout Repository
@@ -27,15 +27,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Ensure Clean Chrome Driver Installation
+      - name: Install Firefox & GeckoDriver
         run: |
           sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-          google-chrome --version
+          sudo apt-get install -y firefox
+          firefox --version  # ✅ Print installed Firefox version
+          which firefox  # ✅ Verify Firefox binary location
 
-      - name: Run UI Tests
+      - name: Run UI Tests (Headless Firefox)
         run: |
-          pytest hudl/ -m login_test --html=reports/report.html --self-contained-html 
+          pytest hudl/ -m login_test --html=reports/report.html --self-contained-html
 
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
