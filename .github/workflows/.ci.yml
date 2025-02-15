@@ -28,7 +28,7 @@ jobs:
       - name: Install Firefox and Geckodriver
         run: |
           sudo apt-get update
-          sudo apt-get install -y firefox
+          sudo apt-get install -y firefox xvfb
           GECKODRIVER_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep '"tag_name":' | cut -d '"' -f 4)
           wget "https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz"
           tar -xzf geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz
@@ -40,11 +40,11 @@ jobs:
           Xvfb :99 -screen 0 1920x1080x24 &
           echo "DISPLAY=:99" >> $GITHUB_ENV
 
-      - name: Run UI Tests (Headless Firefox)
+      - name: Run UI Tests (Headless Firefox) with Increased Timeout
         run: |
           pytest hudl/ -m login_test \
             --html=reports/report.html \
-            --self-contained-html 
+            --self-contained-html
 
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
