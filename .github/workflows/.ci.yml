@@ -7,15 +7,15 @@ on:
 
 jobs:
   ui-tests:
-    runs-on: ubuntu-latest  # Use Ubuntu for stability (pre-installed Chrome & Firefox)
+    runs-on: ubuntu-latest
 
     env:
-      BROWSER: chrome  # Default browser to avoid missing env variable issues
-      HEADLESS: "true"
+      BROWSER: chrome  # Default browser
+      HEADLESS: "true"  # Force headless mode in CI
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4  # Updated to latest version
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -27,13 +27,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Ensure Clean Chrome Driver Installation
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          google-chrome --version
+
       - name: Run UI Tests
         run: |
-          mkdir -p reports  # Ensure the reports directory exists
-          pytest hudl/ -m login_test --html=reports/report.html --self-contained-html 
+          pytest hudl -m login_test --html=reports/report.html --self-contained-html 
 
       - name: Upload Test Report
-        uses: actions/upload-artifact@v4  # Updated to v4
+        uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: reports/report.html
