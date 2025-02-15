@@ -11,6 +11,7 @@ jobs:
 
     env:
       BROWSER: chrome  # Default browser to avoid missing env variable issues
+      HEADLESS: "true"
 
     steps:
       - name: Checkout Repository

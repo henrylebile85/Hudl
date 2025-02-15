@@ -49,9 +49,6 @@ def init_driver(request):
             chrome_options.add_argument('--disable-gpu')  # Ensures smooth headless operation
         # Set up the ChromeDriver using webdriver_manager
             chrome_options.add_argument('--disable-dev-shm-usage')
-
-        # ✅ Fix: Avoid conflicting user data directory by setting a unique temp directory
-        chrome_options.add_argument(f'--user-data-dir=/tmp/chrome-user-data-{os.getpid()}')
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
         # you can also use options to write it this way to set up ChromeDriver (below)
