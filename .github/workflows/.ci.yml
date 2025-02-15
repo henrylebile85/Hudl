@@ -44,8 +44,7 @@ jobs:
         run: |
           pytest hudl/ -m login_test \
             --html=reports/report.html \
-            --self-contained-html \
-            --timeout=400 \  # ⬅ Increased timeout here
+            --self-contained-html 
 
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
