@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      BROWSER: firefox  # Default browser
-      HEADLESS: "true"  # Force headless mode in CI
+      BROWSER: chrome  # Default browser
+      HEADLESS: "false"  # Force headless mode in CI
 
     steps:
       - name: Checkout Repository
