@@ -27,13 +27,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Remove Snap Firefox & Install APT Version
+      - name: Install Firefox
         run: |
-          sudo snap remove firefox  # ✅ Remove snap version
           sudo apt-get update
-          sudo apt-get install -y firefox geckodriver  # ✅ Install APT version of Firefox
+          sudo apt-get install -y firefox
           firefox --version  # ✅ Debugging: Confirm installed version
           which firefox  # ✅ Debugging: Print Firefox binary location
+
+      - name: Install Latest Geckodriver Manually
+        run: |
+          GECKODRIVER_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | grep '"tag_name":' | cut -d '"' -f 4)
+          wget "https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz"
+          tar -xvzf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
+          chmod +x geckodriver
+          sudo mv geckodriver /usr/local/bin/
+          geckodriver --version  # ✅ Debugging: Confirm installed version
 
       - name: Run UI Tests (Headless Firefox)
         run: |
