@@ -11,7 +11,7 @@ jobs:
 
     env:
       BROWSER: firefox  # Default browser
-      HEADLESS: "false"  # Force headless mode in CI
+      HEADLESS: "true"  # Force headless mode in CI
 
     steps:
       - name: Checkout Repository
