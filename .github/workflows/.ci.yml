@@ -7,10 +7,10 @@ on:
 
 jobs:
   ui-tests:
-    runs-on: ubuntu-latest  # Use Ubuntu for consistency & pre-installed browsers
+    runs-on: ubuntu-latest  # Use Ubuntu for stability (pre-installed Chrome & Firefox)
 
     env:
-      BROWSER: chrome  # Default browser to avoid environment variable issues
+      BROWSER: chrome  # Default browser to avoid missing env variable issues
 
     steps:
       - name: Checkout Repository
@@ -27,10 +27,12 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run UI Tests
-        run: pytest -m login_test --html=report.html --self-contained-html --title="Hudl UI Tests"
+        run: |
+          mkdir -p reports  # Ensure the reports directory exists
+          pytest hudl/test/ -m login_test --html=reports/report.html --self-contained-html --title="Hudl UI Tests"
 
       - name: Upload Test Report
         uses: actions/upload-artifact@v3
         with:
           name: test-report
-          path: report.html
+          path: reports/report.html
