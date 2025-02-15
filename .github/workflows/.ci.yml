@@ -11,7 +11,7 @@ jobs:
 
     env:
       BROWSER: firefox  # 🔥 Run tests in headless Firefox
-      HEADLESS: "false"  # ✅ Ensure headless mode is enabled
+      HEADLESS: "true"  # ✅ Ensure headless mode is enabled
 
     steps:
       - name: Checkout Repository
@@ -27,15 +27,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Install Firefox & GeckoDriver
+      - name: Install Firefox & Required Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y firefox
+          sudo apt-get install -y xvfb libgtk-3-0 libdbus-glib-1-2 libasound2
           firefox --version  # ✅ Print installed Firefox version
           which firefox  # ✅ Verify Firefox binary location
 
       - name: Run UI Tests (Headless Firefox)
         run: |
+          Xvfb :99 -screen 0 1920x1080x24 &  # ✅ Start virtual display
+          export DISPLAY=:99  # ✅ Set display environment variable
           pytest hudl/ -m login_test --html=reports/report.html --self-contained-html
 
       - name: Upload Test Report
