@@ -28,6 +28,7 @@ def init_driver(request):
 
     # Retrieve the browser type from environment variable
     browser = os.environ.get('BROWSER', None)
+    timeout = int(os.environ.get('SELENIUM_TIMEOUT', 700))  # Default to 700 if not set
     if not browser:
         raise Exception("The environment variable 'BROWSER' must be set." )
 
@@ -73,9 +74,10 @@ def init_driver(request):
     if driver is None:
         raise Exception(f"Failed to initialize a driver for the browser: {browser}")
 
-    # ✅ Increase WebDriver timeouts
-    driver.implicitly_wait(10)  # Waits for elements to be found
-    driver.set_page_load_timeout(700)  # Sets timeout for loading pages
+    # 🔹 Set explicit timeouts
+    driver.set_page_load_timeout(timeout)
+    driver.implicitly_wait(10)
+    driver.set_script_timeout(400)
 
     # Pass the driver to the test class
     request.cls.driver = driver
