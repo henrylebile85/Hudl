@@ -18,6 +18,8 @@ class HudlLoginPasswordPageLocators:
                                             'za2RRbTVvY1BscFUwYnVROHFCTm1OUzRrZ3Mxo2NpZNkgbj'
                                             'EzUmZrSHpLb3phTnhXQzVkWlFvYmVXR2Y0V2pTbjU"]')
 
+    PASSWORD_PAGE = (By.CSS_SELECTOR, 'main.login')
+
     ERRORS_MSG = (By.ID, 'error-element-password')
 
 

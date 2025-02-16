@@ -32,3 +32,14 @@ class HudlLoginPasswordPage(HudlLoginPasswordPageLocators):
     def wait_until_error_is_displayed(self, exp_err):
         self.sl.wait_until_element_contains_text(self.ERRORS_MSG, exp_err)
 
+    def wait_and_confirm_same_page(self):
+        self.sl.wait_and_ensure_same_page_is_visible(self.PASSWORD_PAGE)
+        self.sl.wait_and_ensure_url_is_same('https://identity.hudl.com/u/login/password')
+
+    def wait_and_confirm_page(self):
+        self.sl.wait_until_element_is_visible(self.PASSWORD_PAGE)
+        self.sl.wait_and_confirm_url('https://identity.hudl.com/u/login/password')
+
+    def wait_until_url_changes(self):
+        self.sl.wait_until_url_changes('https://identity.hudl.com/u/login/password')
+

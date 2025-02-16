@@ -31,3 +31,14 @@ class HudlLoginIDPage(HudlLoginIDPageLocators,HudlLoginThirdPartyPageLocators):
         self.sl.wait_until_element_is_visible(self.CONTINUE_WITH_FACEBOOK_BTN, 5)
         self.sl.wait_until_element_is_visible(self.CONTINUE_WITH_APPLE_BTN, 5)
 
+    def wait_and_confirm_same_page(self):
+        self.sl.wait_and_ensure_same_page_is_visible(self.LOGIN_ID_PAGE)
+        self.sl.wait_and_ensure_url_is_same('https://identity.hudl.com/u/login/identifier')
+
+    def wait_and_confirm_page(self):
+        self.sl.wait_until_element_is_visible(self.LOGIN_ID_PAGE)
+        self.sl.wait_and_confirm_url('https://identity.hudl.com/u/login/identifier')
+
+    def url_changes(self):
+        self.sl.wait_until_url_changes('https://identity.hudl.com/u/login/identifier')
+
