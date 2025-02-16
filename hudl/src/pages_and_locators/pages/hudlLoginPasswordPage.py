@@ -28,10 +28,10 @@ class HudlLoginPasswordPage(HudlLoginPasswordPageLocators):
         self.sl.wait_and_click(self.EDIT_USER_NAME)
 
     def wait_until_error_caution_is_present(self):
-        self.sl.wait_until_element_is_present(self.ERROR_caution)
+        self.sl.wait_until_element_is_present(self.ERROR_CAUTION)
 
     def wait_until_error_caution_is_visible(self):
-        self.sl.wait_until_element_is_visible(self.ERROR_caution)
+        self.sl.wait_until_element_is_visible(self.ERROR_CAUTION)
 
 
     def wait_and_confirm_same_page(self):

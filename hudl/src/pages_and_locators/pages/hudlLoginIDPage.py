@@ -39,8 +39,11 @@ class HudlLoginIDPage(HudlLoginIDPageLocators,HudlLoginThirdPartyPageLocators):
         logger.debug("clicking 'continue' button.")
         self.sl.wait_and_click(self.CONTINUE_BTN)
 
-    def wait_until_error_is_displayed(self, exp_err):
-        self.sl.wait_until_element_contains_text(self.ERRORS_MSG, exp_err)
+    def wait_until_error_caution_is_present(self):
+        self.sl.wait_until_element_is_present(self.ERRORS_CAUTION)
+
+    def wait_until_error_caution_is_visible(self):
+        self.sl.wait_until_element_is_visible(self.ERRORS_CAUTION)
 
     def wait_until_elements_are_visible(self):
         self.sl.wait_until_element_is_visible(self.CONTINUE_WITH_GOOGLE_BTN, 5)

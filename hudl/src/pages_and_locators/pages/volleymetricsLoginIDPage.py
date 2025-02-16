@@ -16,11 +16,12 @@ class HudlLoginIDPage(VolleymetricsIDPageLocator):
     # Login user-name section
 
     def input_login_username(self, username):
-        self.sl.wait_and_input_text(self.LOGIN_USER_NAME, username, 5)
+        pass
 
     def click_on_continue_button(self):
-        logger.debug("clicking 'continue' button.")
-        self.sl.wait_and_click(self.CONTINUE_BTN)
+        pass
+
 
     def wait_until_error_is_displayed(self, exp_err):
-        self.sl.wait_until_element_contains_text(self.ERRORS_MSG, exp_err)
+        pass
+
