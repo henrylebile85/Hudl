@@ -9,16 +9,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 import pytest
 import pytest_html
-import allure
 import os
-import subprocess
-import sys
-import time
-import string
-import random
 
-
-# driver.implicitly_wait(10)
 
 
 
@@ -79,9 +71,7 @@ def init_driver(request):
     request.cls.driver = driver
     yield
 
-    driver.quit() # Ensure the driver is closed after the tests5
-
-
+    driver.quit() # Ensure the driver is closed after the tests
 
 
 

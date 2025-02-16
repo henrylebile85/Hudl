@@ -21,8 +21,6 @@ class HomePage(HomePageLocators):
         self.sl.wait_until_element_is_visible(self.MESSAGES)
         self.sl.wait_until_element_is_visible(self.USER_MENU)
 
-    def get_access_team_name(self):
-        self.sl.wait_and_get_text(self.ACCESS_TEAM_NAME)
 
     def wait_and_confirm_same_page(self):
         self.sl.wait_and_ensure_same_page_is_visible(self.HOME_PAGE)
@@ -31,3 +29,4 @@ class HomePage(HomePageLocators):
     def wait_and_confirm_page(self):
         self.sl.wait_until_element_is_visible(self.HOME_PAGE)
         self.sl.wait_and_confirm_url('https://www.hudl.com/home')
+

@@ -19,6 +19,11 @@ class HudlLoginIDPage(HudlLoginIDPageLocators,HudlLoginThirdPartyPageLocators):
     def input_login_username(self, username):
         self.sl.wait_and_input_text(self.LOGIN_USER_NAME, username, 5)
 
+    def wait_and_clear_text(self):
+        logger.debug("clearing existing text.")
+        self.sl.wait_and_select_all_text_input(self.LOGIN_USER_NAME)
+        self.sl.wait_and_delete_all_selected_text(self.LOGIN_USER_NAME)
+
     def click_on_continue_button(self):
         logger.debug("clicking 'continue' button.")
         self.sl.wait_and_click(self.CONTINUE_BTN)
@@ -39,6 +44,6 @@ class HudlLoginIDPage(HudlLoginIDPageLocators,HudlLoginThirdPartyPageLocators):
         self.sl.wait_until_element_is_visible(self.LOGIN_ID_PAGE)
         self.sl.wait_and_confirm_url('https://identity.hudl.com/u/login/identifier')
 
-    def url_changes(self):
+    def wait_until_url_changes(self):
         self.sl.wait_until_url_changes('https://identity.hudl.com/u/login/identifier')
 

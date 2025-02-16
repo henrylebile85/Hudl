@@ -18,9 +18,10 @@ class HudlLoginPasswordPage(HudlLoginPasswordPageLocators):
         self.sl.wait_and_input_text(self.LOGIN_PASSWORD, password, 5)
 
     def wait_until_elements_are_visible(self):
-        self.sl.wait_until_element_is_visible(self.LOGIN_PASSWORD, 5)
-        self.sl.wait_until_element_is_visible(self.FORGOT_PASSWORD_LINK, 5)
-        self.sl.wait_until_element_is_visible(self.CREATE_ACCOUNT_LINK, 5)
+        self.sl.wait_until_element_is_visible(self.LOGIN_PASSWORD)
+
+    def wait_and_get_login_id_input(self):
+        self.sl.wait_and_get_text(self.LOGIN_ID_INPUT)
 
     def click_on_continue_button(self):
         logger.debug("clicking 'continue' button.")
@@ -42,4 +43,6 @@ class HudlLoginPasswordPage(HudlLoginPasswordPageLocators):
 
     def wait_until_url_changes(self):
         self.sl.wait_until_url_changes('https://identity.hudl.com/u/login/password')
+
+
 

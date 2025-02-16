@@ -35,7 +35,7 @@ class SeleniumExtended:
             ).click()
 
 
-    def wait_and_select_all_text(self, locator, timeout=None):
+    def wait_and_select_all_text_input(self, locator, timeout=None):
         timeout = timeout \
             if timeout else self.default_timeout
         try:
@@ -56,7 +56,7 @@ class SeleniumExtended:
             element.send_keys(Keys.COMMAND + 'a')
 
 
-    def wait_and_delete_all_text(self, locator, timeout=None):
+    def wait_and_delete_all_selected_text(self, locator, timeout=None):
         # Waits for an input or textarea field, sends Backspace keys until the text is fully deleted,
         # and waits until the field is empty before proceeding.
         timeout = timeout \
@@ -139,7 +139,6 @@ class SeleniumExtended:
         )
 
 
-
     def wait_and_get_elements(self, locator, err=None, timeout=None):
         timeout = timeout \
             if timeout else self.default_timeout
@@ -159,7 +158,7 @@ class SeleniumExtended:
         timeout = timeout \
             if timeout else self.default_timeout
         elm = WebDriverWait(self.driver, timeout).until(
-            EC.visibility_of_element_located(locator)
+            EC.presence_of_element_located(locator)
         )
         element_text = elm.text
         return element_text
@@ -188,7 +187,7 @@ class SeleniumExtended:
         )
 
     def wait_and_confirm_url(self, url, timeout=None):
-        time.sleep(3)
+        time.sleep(2)
         timeout = timeout \
             if timeout else self.default_timeout
         try:
@@ -200,6 +199,4 @@ class SeleniumExtended:
             (WebDriverWait(self.driver, timeout).until(
                 EC.url_contains(url))
             )
-
-
 

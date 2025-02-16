@@ -42,4 +42,7 @@ class LandingPage(LandingPageLocators):
     def click_iq_for_football_login(self):
         self.sl.wait_and_click(self.IQ_FOR_FOOTBALL_LOGIN)
 
+    def wait_until_url_changes(self):
+        self.sl.wait_until_url_changes('https://www.hudl.com/')
+
 
