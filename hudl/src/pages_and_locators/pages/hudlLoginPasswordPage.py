@@ -1,4 +1,4 @@
-
+import time
 
 from hudl.src.pages_and_locators.locators.hudlLoginPasswordPageLocators import HudlLoginPasswordPageLocators
 from hudl.src.pages_and_locators.SeleniumExtended import SeleniumExtended
@@ -20,9 +20,6 @@ class HudlLoginPasswordPage(HudlLoginPasswordPageLocators):
     def wait_until_elements_are_visible(self):
         self.sl.wait_until_element_is_visible(self.LOGIN_PASSWORD)
 
-    def wait_and_get_login_id_input(self):
-        self.sl.wait_and_get_text(self.LOGIN_ID_INPUT)
-
     def click_on_continue_button(self):
         logger.debug("clicking 'continue' button.")
         self.sl.wait_and_click(self.CONTINUE_BTN)
@@ -30,8 +27,12 @@ class HudlLoginPasswordPage(HudlLoginPasswordPageLocators):
     def click_on_edit_email(self):
         self.sl.wait_and_click(self.EDIT_USER_NAME)
 
-    def wait_until_error_is_displayed(self, exp_err):
-        self.sl.wait_until_element_contains_text(self.ERRORS_MSG, exp_err)
+    def wait_until_error_caution_is_present(self):
+        self.sl.wait_until_element_is_present(self.ERROR_caution)
+
+    def wait_until_error_caution_is_visible(self):
+        self.sl.wait_until_element_is_visible(self.ERROR_caution)
+
 
     def wait_and_confirm_same_page(self):
         self.sl.wait_and_ensure_same_page_is_visible(self.PASSWORD_PAGE)

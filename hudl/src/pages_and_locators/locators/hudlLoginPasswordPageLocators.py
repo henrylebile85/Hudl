@@ -9,7 +9,9 @@ class HudlLoginPasswordPageLocators:
     EDIT_USER_NAME = (By.CSS_SELECTOR, 'div.c7e6cc6e7 a[data-link-name="edit-username"]')
     PASSWORD_PAGE = (By.CSS_SELECTOR, 'main.login')
 
-    ERRORS_MSG = (By.ID, 'error-element-password')
+    ERROR_caution = (By.CSS_SELECTOR, 'span#error-element-password')
+    ERRORS_MSG2 = (By.XPATH, "//div[@role='alert']//span")
+    ERRORS_MSG3 = (By.XPATH, "(//span)[last()]")
 
 
-error_msg = 'Incorrect username or password.'
+

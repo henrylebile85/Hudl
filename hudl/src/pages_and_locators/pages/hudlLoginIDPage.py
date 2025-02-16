@@ -1,4 +1,6 @@
+from tokenize import endpats
 
+from hudl.src.helpers.config_helpers import get_base_url
 from hudl.src.pages_and_locators.locators.hudlLoginIDPageLocators import (HudlLoginIDPageLocators,
                                                                           HudlLoginThirdPartyPageLocators)
 from hudl.src.pages_and_locators.SeleniumExtended import SeleniumExtended
@@ -9,9 +11,18 @@ import logging as logger
 
 class HudlLoginIDPage(HudlLoginIDPageLocators,HudlLoginThirdPartyPageLocators):
 
+    endpoint = '/login/'
+
     def __init__(self, driver):
         self.driver = driver
         self.sl = SeleniumExtended(self.driver)
+
+
+    def go_to_login_page(self):
+        base_url = get_base_url()
+        login_page = base_url + self.endpoint
+        logger.info(f'Going to: {login_page}')
+        self.driver.get(login_page)
 
 
     # Login user-name section

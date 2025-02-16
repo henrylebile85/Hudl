@@ -16,7 +16,6 @@ class HudlLoginIDPageLocators:
     ERRORS_MSG = (By.CSS_SELECTOR, 'div.input-wrapper span#error-element-username.ulp-input-error-message')
     LOGIN_ID_PAGE = (By.CSS_SELECTOR, 'main.login-id')
 
-error_message = 'Enter a valid email.'
 
 
 

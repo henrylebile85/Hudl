@@ -114,7 +114,7 @@ class SeleniumExtended:
         timeout = timeout \
             if timeout else self.default_timeout
         (WebDriverWait(self.driver, timeout).until(
-            EC.text_to_be_present_in_element(locator, text))
+            EC.text_to_be_present_in_element_value(locator, text))
         )
 
     def wait_until_element_is_visible(self, locator, timeout=None):
@@ -123,6 +123,14 @@ class SeleniumExtended:
         (WebDriverWait(self.driver, timeout).until(
             EC.visibility_of_element_located(locator))
         )
+
+    def wait_until_element_is_present(self, locator, timeout=None):
+        timeout = timeout \
+            if timeout else self.default_timeout
+        (WebDriverWait(self.driver, timeout).until(
+            EC.presence_of_element_located(locator))
+        )
+
 
     def wait_until_all_elements_are_visible(self, locator, timeout=None):
         timeout = timeout \
@@ -199,4 +207,7 @@ class SeleniumExtended:
             (WebDriverWait(self.driver, timeout).until(
                 EC.url_contains(url))
             )
+
+
+
 

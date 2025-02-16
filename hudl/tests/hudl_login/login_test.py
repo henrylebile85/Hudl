@@ -40,7 +40,7 @@ class TestLogIn:
         Land_P.click_hudl_login()
         Land_P.wait_until_url_changes()
 
-        # Enter a valid email address in the "Email" field and Click continue
+        # Enter a registered valid email address in the "Email" field and Click continue
         HLodID_P.wait_and_confirm_page()
         HLodID_P.wait_until_elements_are_visible()
         assert self.HLodID_P_url in driver.current_url, f' ❌ User is not on the login ID page, got {driver.current_url}'
