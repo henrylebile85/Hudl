@@ -26,7 +26,7 @@ class SeleniumExtended:
             if timeout else self.default_timeout
         try:
             (WebDriverWait(self.driver, timeout).until(
-                EC.visibility_of_element_located(locator))
+                EC.element_to_be_clickable(locator))
             ).click()
         except TimeoutException or StaleElementReferenceException or ElementClickInterceptedException:
             time.sleep(2)
@@ -94,7 +94,7 @@ class SeleniumExtended:
 
             text_length = len(element.get_attribute("value"))
 
-            for _ in range(text_length):
+            for i in range(text_length):
                 element.send_keys(Keys.BACKSPACE)
                 time.sleep(0.05)
 
@@ -163,3 +163,38 @@ class SeleniumExtended:
         )
         element_text = elm.text
         return element_text
+
+    def wait_and_ensure_same_page_is_visible(self, locator, timeout=None):
+        time.sleep(2)
+        timeout = timeout \
+            if timeout else self.default_timeout
+        (WebDriverWait(self.driver, timeout).until(
+            EC.invisibility_of_element(locator))
+        )
+
+    def wait_until_url_changes(self, url, timeout=None):
+        timeout = timeout \
+            if timeout else self.default_timeout
+        (WebDriverWait(self.driver, timeout).until(
+            EC.url_changes(url))
+        )
+
+    def wait_and_ensure_url_is_same(self, url, timeout=None):
+        time.sleep(2)
+        timeout = timeout \
+            if timeout else self.default_timeout
+        (WebDriverWait(self.driver, timeout).until(
+            EC.url_contains(url))
+        )
+
+    def wait_sheck(self, url, timeout=None):
+        time.sleep(2)
+        timeout = timeout \
+            if timeout else self.default_timeout
+        (WebDriverWait(self.driver, timeout).until(
+            EC.url_contains(url))
+        )
+
+
+
+

@@ -62,11 +62,31 @@ requirements.txt file
     set BROWSER=firefox   
 
   - For apple use any of the following, depending on the browser you want to run (no spaces in *=* )   
-    export BROWSER=chrome
-    export BROWSER=firefox
-    export BROWSER=safari   
+    export BROWSER=chrome  
+    export BROWSER=firefox  
+    export BROWSER=safari      
 
-- Set EnvironmentI (Not required)
+- Set REGISTERED_EMAIL and VALID_PASSWORD from .env **or** from system environment variables
+  - Set from .env.example: 
+    - change .env.example to .env   
+      cp .env.example .env   
+    
+    - Then open the .env file and adjust the variable with the correct credentials, under 
+      REGISTERED_EMAIL 
+      VALID_PASSWORD 
+  - Set it from entering the system environment variable 
+    - For windows use set (no spaces in *=* )   
+      set BROWSER=REGISTERED_EMAIL  
+      set BROWSER=VALID_PASSWORD   
+
+    - For apple use export (no spaces in *=* )   
+      export BROWSER=REGISTERED_EMAIL   
+      export BROWSER=VALID_PASSWORD   
+    
+  📌 **Note:** run the python script credential_management.py to confirm your credentials have been registered   
+      python credentials.py   
+      
+- Set Test Environment **(Not required)**
   - prod is set as the default value. 
     For the purpose of this Hudl exercise, we would be using only prod  
 
@@ -75,8 +95,7 @@ requirements.txt file
     set RESULTS_DIR=then enter the absolute path of where you want the file to be stored e.g. reports   
 
   - For apple use any of the following, depending on what browser you want to run (no spaces in *=* )   
-    export RESULTS_DIR=then enter the absolute path of where you want the file to be stored e.g. reports   
-
+    export RESULTS_DIR=then enter the absolute path of where you want the file to be stored e.g. reports  
 
 ## Run Test and Generate Reports  
 - Navigate to the hudl package   
