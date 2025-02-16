@@ -21,6 +21,7 @@ class SeleniumExtended:
             EC.visibility_of_element_located(locator))
         ).send_keys(text)
 
+
     def wait_and_click(self, locator, timeout=None):
         timeout = timeout \
             if timeout else self.default_timeout
@@ -132,12 +133,6 @@ class SeleniumExtended:
         )
 
 
-    def wait_until_all_elements_are_visible(self, locator, timeout=None):
-        timeout = timeout \
-            if timeout else self.default_timeout
-        (WebDriverWait(self.driver, timeout).until(
-            EC.visibility_of_all_elements_located(locator))
-        )
 
     def wait_for_element_to_disappear(self, locator, timeout=None):
         timeout = timeout \
@@ -145,21 +140,6 @@ class SeleniumExtended:
         (WebDriverWait(self.driver, timeout).until(
             EC.invisibility_of_element(locator))
         )
-
-
-    def wait_and_get_elements(self, locator, err=None, timeout=None):
-        timeout = timeout \
-            if timeout else self.default_timeout
-        err = err if err else (f'unable to find elements located by "{locator}", '
-                               f'after timeout of {timeout}')
-        try:
-            elements = (WebDriverWait(self.driver, timeout).until(
-                EC.visibility_of_all_elements_located(locator))
-            )
-        except TimeoutException:
-            raise TimeoutException()
-
-        return elements
 
 
     def wait_and_get_text(self, locator, timeout=None):
@@ -170,6 +150,7 @@ class SeleniumExtended:
         )
         element_text = elm.text
         return element_text
+
 
     def wait_and_ensure_same_page_is_visible(self, locator, timeout=None):
         time.sleep(3)

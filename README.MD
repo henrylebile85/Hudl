@@ -64,7 +64,7 @@ requirements.txt file
   - For apple use any of the following, depending on the browser you want to run (no spaces in *=* )   
     export BROWSER=chrome  
     export BROWSER=firefox  
-    export BROWSER=safari      
+    export BROWSER=safari ❌ **NOT STABLE** at best can only run 1 test at a time         
 
 - Set REGISTERED_EMAIL and VALID_PASSWORD from .env **or** from system environment variables
   - Set from .env.example: 
