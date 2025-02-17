@@ -31,7 +31,7 @@ cd hudl
 - Deactivate the Virtual Environment      
   deactivate 
 
-- Create a Virtual Environment   
+- ✅ Create a Virtual Environment (**Recommended**)      
   python -m venv virtual_environment_name   
   Note: command for python 3 and above  
 
