@@ -16,6 +16,7 @@ cd hudl
 
 ## Setting up a new Virtual environment or activating the Virtual environment within the project
 - Activate the Virtual Environment within the hudl project venv (venv_hudl1)   
+  ⚠️ As it is not best practice to share the project's venv, I would withhold and only provide this upon request  
   Execute command from the hudl project   
 
   - Windows {bash}(Command Prompt):    
